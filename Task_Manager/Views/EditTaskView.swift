@@ -28,7 +28,7 @@ struct EditTaskView: View {
         self.task = task
         self._taskTitle = State(initialValue: task.title)
         self._taskDetails = State(initialValue: task.details)
-        self._selectedColorIndex = State(initialValue: colors.firstIndex(of: task.color.lowercased()) ?? 0)
+        self._selectedColorIndex = State(initialValue: colors.firstIndex(of: task.color) ?? 0)
         self._selectedTaskTypeIndex = State(initialValue: taskTypes.firstIndex(of: task.type) ?? 0)
         self._createdTime = State(initialValue: task.createdTime)
         self._progress = State(initialValue: task.progress)
@@ -52,7 +52,6 @@ struct EditTaskView: View {
                 Picker("Select Color", selection: $selectedColorIndex) {
                     ForEach(0..<colors.count) {
                         Text(colors[$0])
-                            .foregroundColor(Color(colors[$0]))
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
@@ -85,7 +84,7 @@ struct EditTaskView: View {
             
             Section {
                 Button("Save Task") {
-                    let selectedColor = colors[selectedColorIndex].lowercased()
+                    let selectedColor = colors[selectedColorIndex]
                     let selectedTaskType = taskTypes[selectedTaskTypeIndex]
 
                     taskManager.editTask(task, with: taskTitle, details: taskDetails, color: selectedColor, type: selectedTaskType, progress: progress, deadline: taskDeadline, createdTime: createdTime)

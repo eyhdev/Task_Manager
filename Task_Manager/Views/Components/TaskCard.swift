@@ -19,23 +19,26 @@ struct TaskCard: View {
                 Text(task.type ?? "")
                     .foregroundColor(.white)
                     .font(.callout)
+                    .bold()
                     .padding(.vertical, 5)
                     .padding(.horizontal)
                     .background {
                         Capsule()
-                            .fill(.brown.opacity(0.8))
+                            .fill(Color(task.color).opacity(0.7))
                     }
                 Spacer()
                 // Progress indicator (e.g., "100%") with background color
-                Text(task.isDone ? "100%" : "\(task.progress)0%")
-                    .foregroundColor(.white)
+
+                Text(task.isDone ? "100%" : "\(task.progress * 10)%")
                     .font(.callout)
                     .padding(.vertical, 5)
                     .padding(.horizontal)
                     .background {
                         Capsule()
-                            .fill(.blue.opacity(0.8))
+                            .fill(.ultraThinMaterial)
                     }
+                
+                
             }
 
             // Title of the task

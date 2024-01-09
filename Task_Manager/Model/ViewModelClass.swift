@@ -7,7 +7,6 @@
 
 import Foundation
 import FirebaseFirestore
-import FirebaseFirestoreSwift
 import Firebase
 
 // Define a Task struct conforming to Identifiable and Codable
@@ -83,7 +82,45 @@ class TaskManager: ObservableObject {
             print("Error signing out: \(error.localizedDescription)")
         }
     }
+    func getAuthorizedUserData(completion: @escaping (Users?) -> Void) {
+        guard let userId = auth.currentUser?.uid else {
+            completion(nil)
+            return
+        }
+        
+        db.collection("users").document(userId).getDocument { document, error in
+            if let document = document, document.exists {
+                do {
+                    let user = try document.data(as: Users.self)
+                    completion(user)
+                } catch {
+                    print("Error decoding user: \(error.localizedDescription)")
+                    completion(nil)
+                }
+            } else {
+                print("User not found or error: \(error?.localizedDescription ?? "Unknown error")")
+                completion(nil)
+            }
+        }
+    }
+
     
+    func updateUserProfile(_ updatedUser: Users, completion: @escaping (Bool, String?) -> Void) {
+        guard let userId = auth.currentUser?.uid else {
+            completion(false, "User not logged in")
+            return
+        }
+
+        db.collection("users").document(userId).setData(["name": updatedUser.name, "surname": updatedUser.surname, "email": updatedUser.email, "departmant": updatedUser.departmant], merge: true) { error in
+            if let error = error {
+                completion(false, error.localizedDescription)
+            } else {
+                completion(true, nil)
+            }
+        }
+    }
+
+
     // Function to fetch tasks for the current authenticated user
     func fetchTasks() {
         guard let userId = auth.currentUser?.uid else { return }
