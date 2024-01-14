@@ -30,6 +30,7 @@ struct BottomSections: View {
                     Image(systemName: "xmark.app.fill") // Icon for the tab
                 }
         }
+        .accentColor(.brown)
     }
 }
 

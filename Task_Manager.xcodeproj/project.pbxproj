@@ -32,6 +32,7 @@
 		D4898A1A2B4AE31E0026C1E1 /* BottomSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4898A192B4AE31E0026C1E1 /* BottomSections.swift */; };
 		D4898A1C2B4AE4640026C1E1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D4898A1B2B4AE4640026C1E1 /* GoogleService-Info.plist */; };
 		D4A7D4B72B4C4BEC0038A044 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A7D4B62B4C4BEC0038A044 /* ProfileView.swift */; };
+		D4D5772D2B54081B00FE5EAF /* FilePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D5772C2B54081B00FE5EAF /* FilePicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		D4898A192B4AE31E0026C1E1 /* BottomSections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomSections.swift; sourceTree = "<group>"; };
 		D4898A1B2B4AE4640026C1E1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D4A7D4B62B4C4BEC0038A044 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		D4D5772C2B54081B00FE5EAF /* FilePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				D4898A172B4AE3100026C1E1 /* ViewModelClass.swift */,
+				D4D5772C2B54081B00FE5EAF /* FilePicker.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				D46E52822B4AC6E300440015 /* ContentView.swift in Sources */,
 				D4A7D4B72B4C4BEC0038A044 /* ProfileView.swift in Sources */,
 				D46E52802B4AC6E300440015 /* Task_ManagerApp.swift in Sources */,
+				D4D5772D2B54081B00FE5EAF /* FilePicker.swift in Sources */,
 				D4898A1A2B4AE31E0026C1E1 /* BottomSections.swift in Sources */,
 				D4898A112B4AE30A0026C1E1 /* AuthView.swift in Sources */,
 				D4898A152B4AE30A0026C1E1 /* EditTaskView.swift in Sources */,

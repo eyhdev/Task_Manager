@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 import Firebase
-
+import FirebaseStorage
 // Define a Task struct conforming to Identifiable and Codable
 struct Task: Identifiable, Codable {
     @DocumentID var id: String?
@@ -21,6 +21,7 @@ struct Task: Identifiable, Codable {
     var createdTime: String  // New property
     var userId: String?
     var progress: Int
+    var fileURL: String?
 }
 
 // Define a Users struct conforming to Codable
@@ -145,23 +146,42 @@ class TaskManager: ObservableObject {
             }
     }
     
-    // Function to add a new task
-    func addTask(title: String, details: String, color: String, type: String, progress: Int, deadline: Date) {
+    func addTask(title: String, details: String, color: String, type: String, progress: Int, deadline: Date, fileURL: URL?) {
         guard let userId = auth.currentUser?.uid else { return }
-        
+
         do {
-            // Format current time
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "HH:mm"
             let createdTime = dateFormatter.string(from: Date())
-            
-            // Create a new task and add it to Firestore
-            let newTask = Task(title: title, details: details, color: color, type: type, deadline: deadline, isDone: false, createdTime: createdTime, userId: userId, progress: progress)
-            _ = try db.collection("tasks").addDocument(from: newTask)
+
+            var newTask = Task(title: title, details: details, color: color, type: type, deadline: deadline, isDone: false, createdTime: createdTime, userId: userId, progress: progress)
+
+            // Upload file to Firebase Storage
+            if let fileURL = fileURL {
+                let storageRef = Storage.storage().reference().child("taskFiles/\(UUID().uuidString).pdf")
+                storageRef.putFile(from: fileURL, metadata: nil) { _, error in
+                    if let error = error {
+                        print("Error uploading file: \(error.localizedDescription)")
+                        return
+                    }
+
+                    // File uploaded successfully, update task with file URL
+                    storageRef.downloadURL { url, error in
+                        if let downloadURL = url {
+                            newTask.fileURL = downloadURL.absoluteString
+                            _ = try? self.db.collection("tasks").addDocument(from: newTask)
+                        }
+                    }
+                }
+            } else {
+                // No file selected, add task without file
+                _ = try? self.db.collection("tasks").addDocument(from: newTask)
+            }
         } catch {
             print("Error adding task: \(error.localizedDescription)")
         }
     }
+
 
     // Function to toggle the status of a task (done or not done)
     func toggleTaskStatus(_ task: Task) {

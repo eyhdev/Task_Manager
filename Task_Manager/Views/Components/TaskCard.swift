@@ -33,6 +33,7 @@ struct TaskCard: View {
                     .font(.callout)
                     .padding(.vertical, 5)
                     .padding(.horizontal)
+                    .foregroundColor(.gray)
                     .background {
                         Capsule()
                             .fill(.ultraThinMaterial)
@@ -59,16 +60,20 @@ struct TaskCard: View {
                     // Deadline with calendar icon
                     Label {
                         Text((task.deadline ?? Date()).formatted(date: .long, time: .omitted))
+                            .foregroundStyle(.gray)
                     } icon: {
                         Image(systemName: "calendar")
+                            .foregroundColor(.brown)
                     }
                     .font(.caption)
 
                     // Time with clock icon
                     Label {
                         Text((task.deadline ?? Date()).formatted(date: .omitted, time: .shortened))
+                            .foregroundStyle(.gray)
                     } icon: {
                         Image(systemName: "clock")
+                            .foregroundColor(.brown)
                     }
                     .font(.caption)
                 }
@@ -80,6 +85,7 @@ struct TaskCard: View {
                 } label: {
                     Image(systemName: task.isDone ? "checkmark.circle.fill" : "circle")
                         .font(.title2)
+                        .foregroundColor(.blue)
                 }
             }
         }

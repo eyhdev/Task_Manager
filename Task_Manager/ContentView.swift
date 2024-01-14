@@ -23,8 +23,8 @@ struct ContentView: View {
                         .navigationTitle("Task Management")
                         .navigationBarTitleDisplayMode(.inline)
                         .sheet(isPresented: $isShowingAddTaskSheet) {
-                            AddTaskView(isPresented: $isShowingAddTaskSheet) { title, details, color, type, progress, deadline in
-                                taskManager.addTask(title: title, details: details, color: color, type: type, progress: progress, deadline: deadline)
+                            AddTaskView(isPresented: $isShowingAddTaskSheet) { title, details, color, type, progress, deadline, fileURL in
+                                taskManager.addTask(title: title, details: details, color: color, type: type, progress: progress, deadline: deadline, fileURL: fileURL)
                             }
                         }
                         .navigationBarItems(
@@ -78,6 +78,6 @@ struct ContentView: View {
                 self.user = fetchedUser
             }
         }
-        .accentColor(.brown)
+        .accentColor(.white)
     }
 }

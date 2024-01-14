@@ -16,12 +16,12 @@ struct AddTaskView: View {
     @State private var selectedTaskTypeIndex = 0 // State for the selected task type index
     @State private var taskDeadline = Date() // State for the task deadline
     @State private var progress = 0 // State for the task progress (as a percentage)
-
+    @State private var showFilePicker = false
     let colors = ["Red", "Green", "Blue", "Yellow", "Purple"] // Array of color options
     let taskTypes = ["Basic", "Urgent", "Important"] // Array of task type options
-
+    @State private var selectedFile: URL?
     // Callback closure to add a new task
-    var onAddTask: (String, String, String, String, Int, Date) -> Void
+    var onAddTask: (String, String, String, String, Int, Date, URL?) -> Void
 
     var body: some View {
         NavigationView {
@@ -67,16 +67,50 @@ struct AddTaskView: View {
                     // DatePicker for selecting the task deadline
                     DatePicker("Select Date", selection: $taskDeadline, in: Date()..., displayedComponents: .date)
                 }
+                
+                Section(header: Text("Task Attachment")) {
+                    HStack {
+                        // Display selected file name
+                        Text(selectedFile?.lastPathComponent ?? "No file selected")
 
+                        Spacer()
+
+                        // Button to open file picker
+                        Button("Choose File") {
+                            selectedFile = nil // Reset selected file
+                            selectedFile = try? FileManager.default.url(
+                                for: .documentDirectory,
+                                in: .userDomainMask,
+                                appropriateFor: nil,
+                                create: false
+                            )
+
+                            // Open file picker
+                            showFilePicker.toggle()
+                        }
+                        .fileImporter(
+                            isPresented: $showFilePicker,
+                            allowedContentTypes: [.pdf],
+                            onCompletion: { result in
+                                do {
+                                    selectedFile = try result.get()
+                                } catch {
+                                    print("Error selecting file: \(error.localizedDescription)")
+                                }
+                            }
+                        )
+                        .foregroundColor(.blue)
+                    }
+                }
                 Section {
                     // Button to add the task with the selected parameters
                     Button("Add Task") {
                         let selectedColor = colors[selectedColorIndex]
                         let selectedTaskType = taskTypes[selectedTaskTypeIndex]
-                        
-                        // Call the onAddTask closure with the provided task details
-                        onAddTask(taskTitle, taskDetails, selectedColor, selectedTaskType, progress, taskDeadline)
-                        
+
+                        // Call the onAddTask closure with the provided task details and selected file
+                        onAddTask(taskTitle, taskDetails, selectedColor, selectedTaskType, progress, taskDeadline, selectedFile)
+
                         // Close the AddTaskView
                         isPresented = false
                     }
