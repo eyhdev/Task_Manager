@@ -91,6 +91,7 @@ struct EditTaskView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
+                .foregroundStyle(.blue)
             }
             Section {
                 Button("Delete Task") {

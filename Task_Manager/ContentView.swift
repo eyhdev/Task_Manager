@@ -38,7 +38,11 @@ struct ContentView: View {
                                             showingProfile = true
                                         } label: {
                                             Text("View Profile")
-                                                .foregroundColor(.blue)
+                                        }
+                                        Button {
+                                            taskManager.signOut()
+                                        } label: {
+                                            Text("Sign Out")
                                         }
                                     }
                                 }),
