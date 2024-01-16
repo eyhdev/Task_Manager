@@ -33,10 +33,10 @@ struct TaskCard: View {
                     .font(.callout)
                     .padding(.vertical, 5)
                     .padding(.horizontal)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.white)
                     .background {
                         Capsule()
-                            .fill(.ultraThinMaterial)
+                            .fill(.blue.opacity(0.7))
                     }
                 
                 
